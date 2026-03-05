@@ -107,13 +107,13 @@
       letter-spacing:.2px;
       border:1px solid var(--line);
       background:#161a20;
-      
     }
     .pill.good{color:var(--good); border-color:#244a35; background:#111b15;}
     .pill.warn{color:var(--warn); border-color:#5a4524; background:#1b160e;}
     .pill.bad{color:var(--bad); border-color:#5a2a2a; background:#1b1010;}
     .pill.info{color:var(--info); border-color:#203a5a; background:#0f1622;}
-    .pill.parts{color:var(--parts); border-color:#5a5324; background:#1b1a0e;
+    .pill.parts{color:var(--parts); border-color:#5a5324; background:#1b1a0e;}
+
     @media (max-width: 1100px){
       .grid{grid-template-columns:1fr}
       .cards{grid-template-columns: repeat(2, 1fr);}
@@ -227,7 +227,6 @@
           cur += ch;
         }
       }
-      // last cell
       row.push(cur);
       if (row.some(v => v !== "")) rows.push(row);
 
@@ -254,13 +253,18 @@
       return `<span class="pill ${cls}">${status || "—"}</span>`;
     }
 
-    function kpiAccent(label){
+    // KPI number colors to match your status palette
+    function metricColor(label){
       const l = (label || "").toLowerCase();
-      if (l.includes("revenue") || l.includes("sales")) return "style='color: var(--info)'";
-      if (l.includes("profit")) return "style='color: var(--good)'";
-      if (l.includes("expense") || l.includes("alerts") || l.includes("low")) return "style='color: var(--bad)'";
-      if (l.includes("open") || l.includes("assigned")) return "style='color: var(--warn)'";
-      return "";
+
+      if (l.includes("revenue")) return "var(--good)";          // green
+      if (l.includes("completed")) return "var(--good)";        // green
+      if (l.includes("waiting") || l.includes("awaiting")) return "var(--parts)"; // yellow
+      if (l.includes("diagnostic")) return "var(--warn)";       // orange
+      if (l.includes("open")) return "var(--warn)";             // orange
+      if (l.includes("tech")) return "var(--info)";             // blue (optional but looks nice)
+
+      return "var(--text)"; // default
     }
 
     function formatMaybeCurrency(label, value){
@@ -275,7 +279,6 @@
     }
 
     function renderKPIs(data){
-      // data: [ [Metric,Value], ... ] including header
       const el = document.getElementById("kpiCards");
       el.innerHTML = "";
 
@@ -283,10 +286,11 @@
       rows.slice(0, 6).forEach(r => {
         const label = (r[0] ?? "").trim();
         const val = (r[1] ?? "").trim();
+
         el.insertAdjacentHTML("beforeend", `
           <div class="card">
             <div class="label">${label}</div>
-            <div class="value" ${kpiAccent(label)}>${formatMaybeCurrency(label, val)}</div>
+            <div class="value" style="color:${metricColor(label)}">${formatMaybeCurrency(label, val)}</div>
             <div class="hint">&nbsp;</div>
           </div>
         `);
