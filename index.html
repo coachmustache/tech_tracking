@@ -16,6 +16,7 @@
       --warn:#F6AD55;
       --bad:#E05A5A;
       --info:#4C8DFF;
+      --parts:#F6E05E;
     }
     *{box-sizing:border-box}
     body{
@@ -106,12 +107,13 @@
       letter-spacing:.2px;
       border:1px solid var(--line);
       background:#161a20;
+      
     }
     .pill.good{color:var(--good); border-color:#244a35; background:#111b15;}
     .pill.warn{color:var(--warn); border-color:#5a4524; background:#1b160e;}
     .pill.bad{color:var(--bad); border-color:#5a2a2a; background:#1b1010;}
     .pill.info{color:var(--info); border-color:#203a5a; background:#0f1622;}
-
+    .pill.parts{color:var(--parts); border-color:#5a5324; background:#1b1a0e;
     @media (max-width: 1100px){
       .grid{grid-template-columns:1fr}
       .cards{grid-template-columns: repeat(2, 1fr);}
@@ -245,7 +247,7 @@
       let cls = "info";
       if (s.includes("in progress")) cls = "info";
       else if (s.includes("diagnostic")) cls = "warn";
-      else if (s.includes("waiting")) cls = "warn";
+      else if (s.includes("waiting") || s.includes("awaiting")) cls = "parts";
       else if (s.includes("repair")) cls = "bad";
       else if (s.includes("complete")) cls = "good";
       else if (s.includes("break")) cls = "info";
