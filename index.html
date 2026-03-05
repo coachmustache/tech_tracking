@@ -17,6 +17,7 @@
       --bad:#E05A5A;
       --info:#4C8DFF;
       --parts:#F6E05E;
+      --open:#A78BFA;
     }
     *{box-sizing:border-box}
     body{
@@ -261,7 +262,7 @@
       if (l.includes("completed")) return "var(--good)";        // green
       if (l.includes("waiting") || l.includes("awaiting")) return "var(--parts)"; // yellow
       if (l.includes("diagnostic")) return "var(--warn)";       // orange
-      if (l.includes("open")) return "var(--warn)";             // orange
+      if (l.includes("open")) return "var(--open)";             // purple
       if (l.includes("tech")) return "var(--info)";             // blue (optional but looks nice)
 
       return "var(--text)"; // default
